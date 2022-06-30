@@ -12,9 +12,9 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    private RecyclerView recyclerAvistamento;
-    private AvistamentoAdapter avistamentoAdapter;
+    RecyclerView recyclerAvistamento;
     List<Avistamento> avistamentos;
+    AvistamentoAdapter avistamentoAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,20 +27,17 @@ public class MainActivity extends AppCompatActivity {
             add (new Avistamento("Martim-pescador","Megaceryle torquata"));
             add (new Avistamento("João-de-barro", "Furnarius rufus"));
         }};
-
         recyclerAvistamento = findViewById(R.id.recyclerAvistamento);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerAvistamento.setLayoutManager(layoutManager);
-
-        AvistamentoAdapter.OnAvistamentoCLickListener listener = new AvistamentoAdapter.OnAvistamentoCLickListener() {
+        AvistamentoAdapter.OnAvistamentoClickListener listener = new AvistamentoAdapter.OnAvistamentoClickListener() {
             @Override
-            public void onAvistamentoClick(View source, int position) {
+            public void onAvistamentoClick(View view, int position) {
                 Avistamento avistamento = avistamentos.get(position);
                 avistamento.setAvistamento(avistamento.getAvistamento()+1);
                 avistamentoAdapter.notifyItemChanged(position);
             }
         };
-
         avistamentoAdapter = new AvistamentoAdapter(avistamentos,listener);
         recyclerAvistamento.setAdapter(avistamentoAdapter);
     }

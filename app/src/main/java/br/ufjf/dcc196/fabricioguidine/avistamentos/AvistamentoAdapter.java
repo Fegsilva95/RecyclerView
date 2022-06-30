@@ -12,11 +12,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
 
 public class AvistamentoAdapter extends RecyclerView.Adapter<AvistamentoAdapter.AvistamentoViewHolder> {
-
     private List<Avistamento> avistamentos;
-    private OnAvistamentoCLickListener listener;
+    private OnAvistamentoClickListener listener;
 
-    public AvistamentoAdapter(List<Avistamento> avistamentos, OnAvistamentoCLickListener listener) {
+    public AvistamentoAdapter(List<Avistamento> avistamentos, OnAvistamentoClickListener listener) {
         this.avistamentos = avistamentos;
         this.listener = listener;
     }
@@ -24,11 +23,11 @@ public class AvistamentoAdapter extends RecyclerView.Adapter<AvistamentoAdapter.
     @NonNull
     @Override
     public AvistamentoViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        Context context = parent.getContext();
-        LayoutInflater inflater = LayoutInflater.from(context);
-        View avistamentoView = inflater.inflate(R.layout.avistamento_layout, parent, false);
-        AvistamentoViewHolder holder = new AvistamentoViewHolder(avistamentoView);
-        return holder;
+        Context contexto = parent.getContext();
+        LayoutInflater inflater = LayoutInflater.from(contexto);
+        View avistamentoView = inflater.inflate(R.layout.avistamento_layout,parent,false);
+        AvistamentoViewHolder viewHolder = new AvistamentoViewHolder(avistamentoView);
+        return viewHolder;
     }
 
     @Override
@@ -44,7 +43,7 @@ public class AvistamentoAdapter extends RecyclerView.Adapter<AvistamentoAdapter.
         return avistamentos.size();
     }
 
-    public class AvistamentoViewHolder extends RecyclerView.ViewHolder {
+    public class AvistamentoViewHolder extends RecyclerView.ViewHolder{
         private TextView textViewNome;
         private TextView textViewEspecie;
         private TextView textViewAvistamentos;
@@ -54,17 +53,16 @@ public class AvistamentoAdapter extends RecyclerView.Adapter<AvistamentoAdapter.
             textViewNome = itemView.findViewById(R.id.textViewNome);
             textViewEspecie = itemView.findViewById(R.id.textViewEspecie);
             textViewAvistamentos = itemView.findViewById(R.id.textViewAvistamento);
-
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    listener.onAvistamentoClick(v, getAdapterPosition());
+                    listener.onAvistamentoClick(v,getAdapterPosition());
                 }
             });
         }
     }
 
-    public interface OnAvistamentoCLickListener {
-        void onAvistamentoClick(View source, int position);
+    public interface OnAvistamentoClickListener{
+        void onAvistamentoClick(View view,int position);
     }
 }

@@ -1,30 +1,30 @@
 package br.ufjf.dcc196.fabricioguidine.avistamentos;
 
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.os.Bundle;
-
 public class Avistamento {
     private String nome;
     private String especie;
     private Integer avistamento;
 
-    public Avistamento(String nome, String especie, Integer avistamento) {
+    public Avistamento (String nome, String especie, int avistamento){
         this.nome = nome;
         this.especie = especie;
         this.avistamento = avistamento;
     }
 
-    public Avistamento(String nome, String especie) {
-        new Avistamento(nome, especie, 0);
+    public Avistamento(String nome, String especie){
+        this (nome, especie,0);
     }
 
-    public String getNome() {
-        return nome;
+    public Avistamento(){
+        this(null, null, 0 );
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
+    public Integer getAvistamento() {
+        return avistamento;
+    }
+
+    public void setAvistamento(int avistamento) {
+        this.avistamento = avistamento;
     }
 
     public String getEspecie() {
@@ -35,11 +35,11 @@ public class Avistamento {
         this.especie = especie;
     }
 
-    public Integer getAvistamento() {
-        return avistamento;
+    public String getNome() {
+        return nome;
     }
 
-    public void setAvistamento(Integer avistamento) {
-        this.avistamento = avistamento;
+    public void setNome(String nome) {
+        this.nome = nome;
     }
 }
