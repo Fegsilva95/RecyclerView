@@ -24,6 +24,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         db = AppDatabase.getInstance(getApplicationContext());
+        Avistamento a1 = new Avistamento("Bem-te-vi","Pitangus sulphuratus");
+        db.avistamentoDAO().criar(a1);
 
         avistamentos = new ArrayList<Avistamento>(){{
             add (new Avistamento("Bem-te-vi","Pitangus sulphuratus"));
