@@ -19,11 +19,11 @@ public class Avistamento {
     }
 
     public Avistamento(String nome, String especie){
-        this (nome, especie,0);
+        this (new Long(0), nome, especie,0);
     }
 
     public Avistamento(){
-        this(null, null, 0 );
+        this(new Long(0),null, null, 0 );
     }
 
     public Integer getAvistamento() {

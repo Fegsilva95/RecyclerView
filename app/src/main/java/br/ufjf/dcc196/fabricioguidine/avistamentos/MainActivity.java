@@ -15,12 +15,15 @@ public class MainActivity extends AppCompatActivity {
     RecyclerView recyclerAvistamento;
     List<Avistamento> avistamentos;
     AvistamentoAdapter avistamentoAdapter;
+    private AppDatabase db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        db = AppDatabase.getInstance(getApplicationContext());
 
         avistamentos = new ArrayList<Avistamento>(){{
             add (new Avistamento("Bem-te-vi","Pitangus sulphuratus"));
