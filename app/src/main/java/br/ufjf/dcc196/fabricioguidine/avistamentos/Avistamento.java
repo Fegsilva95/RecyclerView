@@ -1,11 +1,18 @@
 package br.ufjf.dcc196.fabricioguidine.avistamentos;
 
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
+@Entity
 public class Avistamento {
+    @PrimaryKey(autoGenerate = true)
+    private Long id;
     private String nome;
     private String especie;
     private Integer avistamento;
 
-    public Avistamento (String nome, String especie, int avistamento){
+    public Avistamento (Long id, String nome, String especie, int avistamento){
+        this.id = id;
         this.nome = nome;
         this.especie = especie;
         this.avistamento = avistamento;
@@ -42,4 +49,8 @@ public class Avistamento {
     public void setNome(String nome) {
         this.nome = nome;
     }
+
+    public Long getId() { return id; }
+
+    public void setId(Long id) { this.id = id; }
 }
