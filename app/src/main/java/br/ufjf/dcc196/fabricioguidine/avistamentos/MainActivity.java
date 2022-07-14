@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
 
         avistamentos = new ArrayList<Avistamento>(){{
             add (new Avistamento("Bem-te-vi","Pitangus sulphuratus"));
-            add (new Avistamento("Martim-pescador","Megaceryle torquata"));
+            add (new Avistamento("Martin-pescador","Megaceryle torquata"));
             add (new Avistamento("João-de-barro", "Furnarius rufus"));
         }};
         recyclerAvistamento = findViewById(R.id.recyclerAvistamento);
