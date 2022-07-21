@@ -1,9 +1,14 @@
 package br.ufjf.dcc196.fabricioguidine.avistamentos;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
@@ -11,11 +16,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
-
+    AvistamentoRepository repo;
     RecyclerView recyclerAvistamento;
-    List<Avistamento> avistamentos;
+    ActivityResultLauncher<Intent> launcher;
     AvistamentoAdapter avistamentoAdapter;
-    private AppDatabase db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,33 +27,47 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        db = AppDatabase.getInstance(getApplicationContext());
-//        Avistamento a1 = new Avistamento("Bem-te-vi","Pitangus sulphuratus");
-//        db.avistamentoDAO().criar(a1);
+        repo = new AvistamentoRepository(getApplicationContext());
 
-        Avistamento a1 = db.avistamentoDAO().buscaPorId(1L);
-        System.out.println(a1.getNome());
-
-        avistamentos = db.avistamentoDAO().listarTodos();
-        db.avistamentoDAO().exluir(a1);
-
-        avistamentos = new ArrayList<Avistamento>(){{
-            add (new Avistamento("Bem-te-vi","Pitangus sulphuratus"));
-            add (new Avistamento("Martin-pescador","Megaceryle torquata"));
-            add (new Avistamento("João-de-barro", "Furnarius rufus"));
-        }};
         recyclerAvistamento = findViewById(R.id.recyclerAvistamento);
+
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerAvistamento.setLayoutManager(layoutManager);
         AvistamentoAdapter.OnAvistamentoClickListener listener = new AvistamentoAdapter.OnAvistamentoClickListener() {
             @Override
             public void onAvistamentoClick(View view, int position) {
-                Avistamento avistamento = avistamentos.get(position);
+                Avistamento avistamento = repo.getAvistamento(position);
                 avistamento.setAvistamento(avistamento.getAvistamento()+1);
                 avistamentoAdapter.notifyItemChanged(position);
             }
         };
-        avistamentoAdapter = new AvistamentoAdapter(avistamentos,listener);
+        avistamentoAdapter = new AvistamentoAdapter(repo.getAvistamentos(),listener);
         recyclerAvistamento.setAdapter(avistamentoAdapter);
+
+        launcher = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                new ActivityResultCallback<ActivityResult>() {
+                    @Override
+                    public void onActivityResult(ActivityResult result) {
+                        Bundle extras;
+                        extras = result.getData().getExtras();
+                        String nome = extras.getString("nome");
+                        String especie = extras.getString("especie");
+
+                        Avistamento novoAvistamento = new Avistamento(nome,especie);
+                        repo.addAvistamento(novoAvistamento);
+
+                        avistamentoAdapter = new AvistamentoAdapter(repo.getAvistamentos(),listener);
+                        recyclerAvistamento.setAdapter(avistamentoAdapter);
+                    }
+                });
+    }
+
+    public void adicionaAvistamento(View view){
+
+        Intent intent = new Intent(MainActivity.this, AdicionaAvistamento.class);
+
+        launcher.launch(intent);
+
     }
 }
